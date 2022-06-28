@@ -1,4 +1,6 @@
 data/
+prefect/
+
 .ipynb_checkpoints
 .bin
 *.db
