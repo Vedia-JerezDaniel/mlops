@@ -27,9 +27,7 @@ collection = db.get_collection("data")
 @app.route('/predict', methods=['POST'])
 def predict():
     record = request.get_json()
-
     record['PU_DO'] = '%s_%s' % (record['PULocationID'], record['DOLocationID'])
-
     X = dv.transform([record])
     y_pred = model.predict(X)
 
