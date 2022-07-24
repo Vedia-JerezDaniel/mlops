@@ -1,27 +1,26 @@
-#!/usr/bin/env python
-# coding: utf-8
 
-import sys
 import pickle
 import pandas as pd
 
 
-year = int(sys.argv[1])
-month = int(sys.argv[2])
+# year = int(sys.argv[1])
+# month = int(sys.argv[2])
 
-def main(year, month):
+file = 'q3.parquet'
+
+def main():
 
     categorical = ['PUlocationID', 'DOlocationID']
 
-    input_file = f'https://raw.githubusercontent.com/alexeygrigorev/datasets/master/nyc-tlc/fhv/fhv_tripdata_{year:04d}-{month:02d}.parquet'
+    input_file = file
     
-    output_file = f'taxi_type=fhv_year={year:04d}_month={month:02d}.parquet'
+    output_file = f'taxi_type=fhv_year={2021}_month={1}.parquet'
     
     with open('model.bin', 'rb') as f_in:
         dv, lr = pickle.load(f_in)
 
     df = read_data(input_file)
-    df['ride_id'] = f'{year:04d}/{month:02d}_' + df.index.astype('str')
+    df['ride_id'] = f'{2021}/{1}_' + df.index.astype('str')
     
     dicts = df[categorical].to_dict(orient='records')
     X_val = dv.transform(dicts)
@@ -74,4 +73,4 @@ def read_data(filename):
 # input_file = f'https://raw.githubusercontent.com/alexeygrigorev/datasets/master/nyc-tlc/fhv/fhv_tripdata_2021-02.parquet'
 
 if __name__ == "__main__":
-    main(year, month)
+    main()
